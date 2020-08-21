@@ -1,0 +1,10 @@
+{
+    "chatroom": {
+        "list": "Chatroom/",
+        "find": "Chatroom/",
+        "create": "Chatroom/",
+        "update": "Chatroom/",
+        "delete": "Chatroom/"
+    },
+    "chatroomHub": "ChatroomHub/"
+}

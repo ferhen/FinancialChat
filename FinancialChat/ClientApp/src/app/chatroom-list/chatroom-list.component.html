@@ -1,0 +1,10 @@
+<h1>Chat Rooms</h1>
+<section>
+    <ul>
+        <li *ngFor="let chatroom of chatrooms | async">
+            <a [routerLink]="['/chatroom', chatroom.id]">
+                {{ chatroom.name }}
+            </a>
+        </li>
+    </ul>
+</section>
