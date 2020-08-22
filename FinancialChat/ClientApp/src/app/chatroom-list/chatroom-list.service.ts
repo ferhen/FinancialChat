@@ -19,8 +19,11 @@ export class ChatroomListService {
         return this.http.get<IChatroom[]>(AppConfig.getPath('api', 'chatroom', 'list'));
     }
 
-    public createChatroom(chatroom: IChatroom): Observable<IChatroom> {
-        return this.http.post<IChatroom>(AppConfig.getPath('api', 'chatroom', 'create'), chatroom);
+    public createChatroom(chatroomName: string): Observable<IChatroom> {
+        return this.http.post<IChatroom>(
+            AppConfig.getPath('api', 'chatroom', 'create'),
+            { name: chatroomName }
+        );
     }
 
     public editChatroom(chatroom: IChatroom): Observable<IChatroom> {

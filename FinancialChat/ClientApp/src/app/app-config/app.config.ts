@@ -12,7 +12,7 @@ export class AppConfig {
     static settings: IAppConfig;
     static endpoints: {};
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     public static getPath(type: 'api' | 'hubs', ...params: string[]): string {
         const baseUrl = AppConfig.settings.apiServer.baseUrl;

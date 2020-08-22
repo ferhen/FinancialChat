@@ -8,11 +8,11 @@
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ chatroom.name }}</h5>
                 <div class="btn-group" role="group">
-                    <button class="btn btn-primary btn-sm" type="button" (click)="edit($event)">Edit</button>
-                    <button class="btn btn-danger btn-sm" type="button" (click)="remove($event)">Delete</button>
+                    <button class="btn btn-primary btn-sm" type="button" (click)="edit($event, chatroom)">Edit</button>
+                    <button class="btn btn-danger btn-sm" type="button" (click)="remove($event, chatroom)">Delete</button>
                 </div>
             </div>
         </a>
     </div>
-    <button class="new-chatroom-btn btn btn-success" type="button">Create Chat Room</button>
+    <button class="new-chatroom-btn btn btn-success" type="button" (click)="create()">Create Chat Room</button>
 </section>

@@ -28,7 +28,7 @@ namespace FinancialChat.Controllers
         public async Task<ActionResult<ChatroomViewModel>> Find(int id) => Ok(await _service.Find(id));
 
         [HttpPost]
-        public async Task<ActionResult<ChatroomViewModel>> Create([FromBody]string name) => Ok(await _service.Create(name));
+        public async Task<ActionResult<ChatroomViewModel>> Create([FromBody]ChatroomViewModel chatroom) => Ok(await _service.Create(chatroom.Name));
 
         [HttpPut]
         public async Task<ActionResult<ChatroomViewModel>> Update([FromBody]ChatroomViewModel chatroom) => Ok(await _service.Update(chatroom));
