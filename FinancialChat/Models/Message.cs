@@ -20,11 +20,19 @@ namespace FinancialChat.Models
         private Message() { }
         public Message(string content, int chatroomId, string userId)
         {
-            // TODO: validar?
+            if (string.IsNullOrWhiteSpace(content))
+                throw new ArgumentException("Message content can't be empty");
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentNullException("UserId is necessary");
             Content = content;
             CreatedOn = DateTimeOffset.Now;
             ChatroomId = chatroomId;
             UserId = userId;
+        }
+
+        public bool IsCommand()
+        {
+            return Content.StartsWith('/');
         }
     }
 }

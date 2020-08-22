@@ -1,7 +1,7 @@
 // core
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChatroomListService } from './chatroom-list.service';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 // imports
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

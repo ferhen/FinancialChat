@@ -53,7 +53,14 @@ namespace FinancialChat.Services
         public async Task<MessageViewModel> ProcessMessage(string messageContent, int chatroomId, string userId)
         {
             var message = new Message(messageContent, chatroomId, userId);
-            
+
+            if (message.IsCommand())
+                return await ProcessCommand(message);
+            return await ProcessUserMessage(message);
+        }
+
+        private async Task<MessageViewModel> ProcessUserMessage(Message message)
+        {
             var messageEntity = await _context.Messages.AddAsync(message);
             await _context.SaveChangesAsync();
 
@@ -62,6 +69,11 @@ namespace FinancialChat.Services
                 .FirstOrDefaultAsync(x => x.Id == messageEntity.Entity.Id);
 
             return _mapper.Map<MessageViewModel>(savedMessage);
+        }
+
+        private async Task<MessageViewModel> ProcessCommand(Message message)
+        {
+            return null;
         }
     }
 }

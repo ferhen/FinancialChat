@@ -13,7 +13,7 @@ namespace Receive
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "hello",
+                channel.QueueDeclare(queue: "financialBotQueue",
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
@@ -26,7 +26,7 @@ namespace Receive
                     var message = Encoding.UTF8.GetString(body);
                     Console.WriteLine(" [x] Received {0}", message);
                 };
-                channel.BasicConsume(queue: "hello",
+                channel.BasicConsume(queue: "financialBotQueue",
                                      autoAck: true,
                                      consumer: consumer);
 

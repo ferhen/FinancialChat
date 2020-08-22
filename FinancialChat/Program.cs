@@ -22,7 +22,7 @@ namespace FinancialChat
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseKestrel();
-                    webBuilder.UseUrls("http://localhost:8000");
+                    webBuilder.UseUrls("http://0.0.0.0:8000");
                     webBuilder.UseStartup<Startup>();
                 });
     }

@@ -12,20 +12,26 @@ namespace Send
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "hello",
+                channel.QueueDeclare(queue: "financialBotQueue",
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
                                      arguments: null);
 
-                string message = "Hello World!";
-                var body = Encoding.UTF8.GetBytes(message);
+                var input = "";
+                Console.WriteLine("Enter a message. 'Quit' to quit.");
+                while ((input = Console.ReadLine()) != "Quit")
+                {
+                    var body = Encoding.UTF8.GetBytes(input);
 
-                channel.BasicPublish(exchange: "",
-                                     routingKey: "hello",
-                                     basicProperties: null,
-                                     body: body);
-                Console.WriteLine(" [x] Sent {0}", message);
+                    channel.BasicPublish(exchange: "",
+                                         routingKey: "financialBotQueue",
+                                         basicProperties: null,
+                                         body: body);
+                    Console.WriteLine(" [x] Sent {0}", input);
+                }
+
+
             }
 
             Console.WriteLine(" Press [enter] to exit.");
