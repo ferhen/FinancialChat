@@ -15,6 +15,11 @@ using FinancialChat.Services;
 using AutoMapper;
 using FinancialChat.Mappings;
 using FinancialChat.Hubs;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using FinancialChat.Helpers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace FinancialChat
 {
@@ -42,6 +47,8 @@ namespace FinancialChat
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+            services.TryAddEnumerable(
+                ServiceDescriptor.Singleton<IPostConfigureOptions<JwtBearerOptions>, ConfigureJwtBearerOptions>());
             services.AddControllersWithViews();
             services.AddRazorPages();
             // In production, the Angular files will be served from this directory
@@ -50,8 +57,14 @@ namespace FinancialChat
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAutoMapper(typeof(MappingProfile));
+
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
+            });
 
             services.AddScoped<ChatroomService>();
             services.AddScoped<ChatroomHubService>();
@@ -86,7 +99,7 @@ namespace FinancialChat
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatroomHub>("/api/ChatroomHub");
+                endpoints.MapHub<ChatroomHub>("/hubs/ChatroomHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");

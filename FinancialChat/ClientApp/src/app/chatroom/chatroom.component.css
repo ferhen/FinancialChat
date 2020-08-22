@@ -14,5 +14,14 @@
 }
 
 .message-container {
+    height: calc(100% - 50px);
+    overflow-y: scroll;
+}
 
+.message-details {
+    margin-bottom: 0;
+}
+
+.message-content {
+    word-break: break-all;
 }

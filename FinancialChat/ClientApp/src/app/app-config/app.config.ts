@@ -14,10 +14,10 @@ export class AppConfig {
 
     constructor(private http: HttpClient) { }
 
-    public static getPath(...params: string[]): string {
+    public static getPath(type: 'api' | 'hubs', ...params: string[]): string {
         const baseUrl = AppConfig.settings.apiServer.baseUrl;
         const endpointConfig = AppConfig.endpoints;
-        return baseUrl + params.reduce((o, key) => o[key], endpointConfig);
+        return baseUrl + `${type}/` + params.reduce((o, key) => o[key], endpointConfig[type]);
     }
 
     public load() {

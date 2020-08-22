@@ -18,5 +18,13 @@ namespace FinancialChat.Models
         public virtual ApplicationUser User { get; private set; }
 
         private Message() { }
+        public Message(string content, int chatroomId, string userId)
+        {
+            // TODO: validar?
+            Content = content;
+            CreatedOn = DateTimeOffset.Now;
+            ChatroomId = chatroomId;
+            UserId = userId;
+        }
     }
 }

@@ -1,10 +1,14 @@
 {
-    "chatroom": {
-        "list": "Chatroom/",
-        "find": "Chatroom/",
-        "create": "Chatroom/",
-        "update": "Chatroom/",
-        "delete": "Chatroom/"
+    "api": {
+        "chatroom": {
+            "list": "Chatroom/",
+            "find": "Chatroom/",
+            "create": "Chatroom/",
+            "update": "Chatroom/",
+            "delete": "Chatroom/"
+        }
     },
-    "chatroomHub": "ChatroomHub/"
+    "hubs": {
+        "chatroomHub": "ChatroomHub/"
+    }
 }

@@ -15,6 +15,7 @@ namespace FinancialChat.Mappings
             CreateMap<Chatroom, ChatroomViewModel>()
                 .ReverseMap();
             CreateMap<Message, MessageViewModel>()
+                //.ReverseMap();
                 .ForMember(x => x.UserName, x => x.MapFrom(y => y.User.UserName));
         }
     }

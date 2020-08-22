@@ -1,10 +1,17 @@
-<h1>Chatroom</h1>
+<h1>{{ (chatroomInfo | async)?.name }}</h1>
 <section class="chatroom-container">
-    <div class="message-container"></div>
+    <div class="message-container">
+        <div *ngFor="let message of messages | async">
+            <p class="message-details"><strong>{{ message.userName }}</strong> {{ message.createdOn | date : 'medium' }}</p>
+            <p class="message-content">{{ message.content }}</p>
+        </div>
+    </div>
     <div class="input-group mb-3 message-input">
-        <input type="text" class="form-control" >
+        <input type="text" class="form-control" [(ngModel)]="inputMessage" (keydown.enter)="sendMessage()">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="button">Send</button>
+            <button class="btn btn-primary" type="button" (click)="sendMessage()">
+                Send
+            </button>
         </div>
       </div>
 </section>

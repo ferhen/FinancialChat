@@ -16,6 +16,6 @@ export class ChatroomListService {
     constructor(private readonly http: HttpClient) { }
 
     public getChatrooms(): Observable<IChatroom[]> {
-        return this.http.get<IChatroom[]>(AppConfig.getPath('chatroom', 'list'));
+        return this.http.get<IChatroom[]>(AppConfig.getPath('api', 'chatroom', 'list'));
     }
 }
