@@ -13,6 +13,7 @@ import { CreateChatroomModalComponent } from './create-chatroom-modal/create-cha
 // models
 import { IChatroom } from './chatroom.model';
 import { map, tap, takeUntil } from 'rxjs/operators';
+import { EditChatroomModalComponent } from './edit-chatroom-modal/edit-chatroom-modal.component';
 
 @Component({
     templateUrl: './chatroom-list.component.html',
@@ -40,6 +41,23 @@ export class ChatroomListComponent implements OnInit, OnDestroy {
     public edit(event: MouseEvent, chatroom: IChatroom): void {
         event.stopPropagation();
         event.preventDefault();
+        const modalRef = this.modalService.open(EditChatroomModalComponent);
+        modalRef.componentInstance.chatroomName = chatroom.name;
+        modalRef.result.then(chatroomName => {
+            const newChatroom = {
+                id: chatroom.id,
+                name: chatroomName
+            };
+            this.service.editChatroom(newChatroom)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe(
+                    x => this.chatrooms.next((() => {
+                        const chatrooms = this.chatrooms.getValue();
+                        chatrooms[chatrooms.findIndex(y => y.id === x.id)] = x;
+                        return chatrooms;
+                    })())
+                );
+        }, () => { });
     }
 
     public remove(event: MouseEvent, chatroom: IChatroom): void {

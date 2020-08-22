@@ -26,6 +26,7 @@ import { ChatroomComponent } from './chatroom/chatroom.component';
 // modals
 import { DeleteChatroomModalComponent } from './chatroom-list/delete-chatroom-modal/delete-chatroom-modal.component';
 import { CreateChatroomModalComponent } from './chatroom-list/create-chatroom-modal/create-chatroom-modal.component';
+import { EditChatroomModalComponent } from './chatroom-list/edit-chatroom-modal/edit-chatroom-modal.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -39,7 +40,8 @@ export function initializeApp(appConfig: AppConfig) {
     ChatroomListComponent,
     ChatroomComponent,
     DeleteChatroomModalComponent,
-    CreateChatroomModalComponent
+    CreateChatroomModalComponent,
+    EditChatroomModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
