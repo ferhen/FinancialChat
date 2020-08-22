@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
+// imports
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 // app config
 import { AppConfig } from './app-config/app.config';
 
@@ -20,6 +23,9 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 
+// modals
+import { DeleteChatroomModalComponent } from './chatroom-list/delete-chatroom-modal/delete-chatroom-modal.component';
+
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
@@ -30,7 +36,8 @@ export function initializeApp(appConfig: AppConfig) {
     NavMenuComponent,
     HomeComponent,
     ChatroomListComponent,
-    ChatroomComponent
+    ChatroomComponent,
+    DeleteChatroomModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,7 +48,8 @@ export function initializeApp(appConfig: AppConfig) {
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'chatroom-list', component: ChatroomListComponent, canActivate: [AuthorizeGuard] },
       { path: 'chatroom/:id', component: ChatroomComponent, canActivate: [AuthorizeGuard] },
-    ])
+    ]),
+    NgbModule
   ],
   providers: [
     {

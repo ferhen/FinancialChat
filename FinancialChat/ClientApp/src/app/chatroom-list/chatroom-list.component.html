@@ -1,10 +1,18 @@
 <h1>Chat Rooms</h1>
 <section>
-    <ul>
-        <li *ngFor="let chatroom of chatrooms | async">
-            <a [routerLink]="['/chatroom', chatroom.id]">
-                {{ chatroom.name }}
-            </a>
-        </li>
-    </ul>
+    <div class="list-group">
+        <a *ngFor="let chatroom of chatrooms | async"
+            href="javascript:void(0)"
+            class="list-group-item list-group-item-action flex-column align-items-start"
+            [routerLink]="['/chatroom', chatroom.id]">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ chatroom.name }}</h5>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-primary btn-sm" type="button" (click)="edit($event)">Edit</button>
+                    <button class="btn btn-danger btn-sm" type="button" (click)="remove($event)">Delete</button>
+                </div>
+            </div>
+        </a>
+    </div>
+    <button class="new-chatroom-btn btn btn-success" type="button">Create Chat Room</button>
 </section>

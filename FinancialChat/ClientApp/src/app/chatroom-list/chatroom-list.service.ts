@@ -18,4 +18,16 @@ export class ChatroomListService {
     public getChatrooms(): Observable<IChatroom[]> {
         return this.http.get<IChatroom[]>(AppConfig.getPath('api', 'chatroom', 'list'));
     }
+
+    public createChatroom(chatroom: IChatroom): Observable<IChatroom> {
+        return this.http.post<IChatroom>(AppConfig.getPath('api', 'chatroom', 'create'), chatroom);
+    }
+
+    public editChatroom(chatroom: IChatroom): Observable<IChatroom> {
+        return this.http.put<IChatroom>(AppConfig.getPath('api', 'chatroom', 'update'), chatroom);
+    }
+
+    public deleteChatroom(chatroomId: number): Observable<number> {
+        return this.http.delete<number>(AppConfig.getPath('api', 'chatroom', 'delete') + chatroomId);
+    }
 }
