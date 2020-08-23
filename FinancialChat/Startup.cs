@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using FinancialChat.Helpers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using FinancialChat.HostedServices;
 
 namespace FinancialChat
 {
@@ -68,6 +69,8 @@ namespace FinancialChat
 
             services.AddScoped<ChatroomService>();
             services.AddScoped<ChatroomHubService>();
+            services.AddScoped<QueuePublisherService>();
+            services.AddHostedService<QueueHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

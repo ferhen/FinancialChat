@@ -31,7 +31,8 @@ namespace FinancialChat.Hubs
         {
             int chatroomId = int.Parse(chatroomIdString);
             var messageViewModel = await _service.ProcessMessage(message, chatroomId, Context.UserIdentifier);
-            await Clients.Group(chatroomIdString).SendAsync("SendMessage", messageViewModel);
+            if (!(messageViewModel is null))
+                await Clients.Group(chatroomIdString).SendAsync("SendMessage", messageViewModel);
         }
     }
 }

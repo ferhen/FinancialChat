@@ -42,10 +42,14 @@ namespace FinancialBot.Services
                 var message = Encoding.UTF8.GetString(body);
                 Console.WriteLine("I> Received {0}", message);
 
-                var stockQuote = await financialService.GetStockQuote(message);
+                var messageArray = message.Split("|");
+                var stockCode = messageArray[0];
+                var chatroomId = messageArray[1];
+
+                var stockQuote = await financialService.GetStockQuote(stockCode);
                 Console.WriteLine($"O> {stockQuote}");
 
-                PublishMessage(stockQuote);
+                PublishMessage($"{stockQuote}|{chatroomId}");
             };
             consumerChannel.BasicConsume(queue: "financialBotQueue",
                                  autoAck: true,

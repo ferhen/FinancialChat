@@ -32,7 +32,14 @@ namespace FinancialChat.Models
 
         public bool IsCommand()
         {
-            return Content.StartsWith('/');
+            return Content.StartsWith("/stock=");
+        }
+
+        public string GetCommandParameter()
+        {
+            if (!Content.Contains('='))
+                return null;
+            return Content.Split('=')[1];
         }
     }
 }

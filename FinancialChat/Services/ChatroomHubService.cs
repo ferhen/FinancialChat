@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FinancialChat.Data;
+using FinancialChat.Hubs;
 using FinancialChat.Models;
 using FinancialChat.ViewModels;
 using Microsoft.AspNetCore.SignalR;
@@ -15,11 +16,15 @@ namespace FinancialChat.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IHubContext<ChatroomHub> _hub;
+        private readonly QueuePublisherService _queuePublisherService;
 
-        public ChatroomHubService(ApplicationDbContext context, IMapper mapper)
+        public ChatroomHubService(ApplicationDbContext context, IMapper mapper, IHubContext<ChatroomHub> hub, QueuePublisherService queuePublisherService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _hub = hub ?? throw new ArgumentNullException(nameof(hub));
+            _queuePublisherService = queuePublisherService ?? throw new ArgumentNullException(nameof(queuePublisherService));
         }
 
         public async Task SendData(IClientProxy client, int chatroomId)
@@ -55,8 +60,16 @@ namespace FinancialChat.Services
             var message = new Message(messageContent, chatroomId, userId);
 
             if (message.IsCommand())
-                return await ProcessCommand(message);
+            {
+                ProcessCommand(message);
+                return null;
+            }
             return await ProcessUserMessage(message);
+        }
+
+        public async Task PublishCommandResult(MessageViewModel messageViewModel, string chatroomId)
+        {
+            await _hub.Clients.Group(chatroomId).SendAsync("SendMessage", messageViewModel);
         }
 
         private async Task<MessageViewModel> ProcessUserMessage(Message message)
@@ -71,9 +84,10 @@ namespace FinancialChat.Services
             return _mapper.Map<MessageViewModel>(savedMessage);
         }
 
-        private async Task<MessageViewModel> ProcessCommand(Message message)
+        private void ProcessCommand(Message message)
         {
-            return null;
+            var stockCode = message.GetCommandParameter();
+            _queuePublisherService.Publish($"{stockCode}|{message.ChatroomId}");
         }
     }
 }

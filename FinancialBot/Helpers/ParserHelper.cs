@@ -20,7 +20,7 @@ namespace FinancialBot.Helpers
             using var streamReader = new StreamReader(stream);
             using var csvReader = new CsvReader(streamReader, configuration);
 
-            return csvReader.GetRecords<T>().ToList();
+            return csvReader.GetRecords<T>()?.ToList();
         }
     }
 }
