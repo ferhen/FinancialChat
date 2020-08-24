@@ -2,27 +2,37 @@
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace FinancialBot.Services
 {
-    public class QueueService : IDisposable
+    public class QueueService : BackgroundService, IDisposable
     {
+        private readonly ILogger<QueueService> _logger;
         private readonly FinancialService financialService = new FinancialService();
-        private readonly ConnectionFactory factory = new ConnectionFactory() { HostName = "localhost" };
+        private readonly ConnectionFactory factory = new ConnectionFactory() { HostName = "rabbitmq" };
 
         private IModel consumerChannel;
         private IModel publisherChannel;
 
         private bool disposedValue;
 
-        public void StartQueue(CancellationToken token)
+        public QueueService(ILogger<QueueService> logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             Task.WaitAll(
-                Task.Factory.StartNew(() => StartConsumerQueue(token)),
-                Task.Factory.StartNew(() => StartPublisherQueue(token))
+                Task.Factory.StartNew(() => StartConsumerQueue(stoppingToken)),
+                Task.Factory.StartNew(() => StartPublisherQueue(stoppingToken))
             );
+
+            return Task.CompletedTask;
         }
 
         private void StartConsumerQueue(CancellationToken token)
@@ -40,14 +50,14 @@ namespace FinancialBot.Services
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                Console.WriteLine("I> Received {0}", message);
+                _logger.LogInformation($"Received > {message}");
 
                 var messageArray = message.Split("|");
                 var stockCode = messageArray[0];
                 var chatroomId = messageArray[1];
 
                 var stockQuote = await financialService.GetStockQuote(stockCode);
-                Console.WriteLine($"O> {stockQuote}");
+                _logger.LogInformation($"Sent > {stockQuote}");
 
                 PublishMessage($"{stockQuote}|{chatroomId}");
             };

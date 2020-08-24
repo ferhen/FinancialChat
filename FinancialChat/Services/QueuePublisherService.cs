@@ -5,7 +5,7 @@ namespace FinancialChat.Services
 {
     public class QueuePublisherService
     {
-        private readonly ConnectionFactory factory = new ConnectionFactory() { HostName = "localhost" };
+        private readonly ConnectionFactory factory = new ConnectionFactory() { HostName = "rabbitmq" };
 
         public void Publish(string message)
         {

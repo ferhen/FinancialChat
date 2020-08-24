@@ -1,0 +1,50 @@
+version: '3.4'
+  
+services:
+  financialchat:
+    image: ${DOCKER_REGISTRY-}financialchat
+    container_name: financialchat
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: FinancialChat/Dockerfile
+    depends_on:
+      - db
+      - rabbitmq
+    links:
+      - rabbitmq
+    ports:
+      - "8000:8000"
+
+  financialbot:
+    image: ${DOCKER_REGISTRY-}financialbot
+    container_name: financialbot
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: FinancialBot/Dockerfile
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+
+  db:
+    image: mcr.microsoft.com/mssql/server
+    container_name: db
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: u*G5)w(Nax
+    ports:
+      - "1433:1433"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialChat", "FinancialC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialBot", "FinancialBot\FinancialBot.csproj", "{0CB1F6A7-03DF-47CB-A982-F91F17620AF5}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{763C402C-5DE5-42FA-BE70-CCAF7A71A7AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0CB1F6A7-03DF-47CB-A982-F91F17620AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CB1F6A7-03DF-47CB-A982-F91F17620AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CB1F6A7-03DF-47CB-A982-F91F17620AF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{763C402C-5DE5-42FA-BE70-CCAF7A71A7AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{763C402C-5DE5-42FA-BE70-CCAF7A71A7AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{763C402C-5DE5-42FA-BE70-CCAF7A71A7AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{763C402C-5DE5-42FA-BE70-CCAF7A71A7AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

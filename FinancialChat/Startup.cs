@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using FinancialChat.Data;
@@ -21,6 +18,7 @@ using Microsoft.Extensions.Options;
 using FinancialChat.Helpers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using FinancialChat.HostedServices;
+using System.Linq;
 
 namespace FinancialChat
 {
@@ -121,6 +119,17 @@ namespace FinancialChat
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            #region Migrations
+
+            using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
+
+            #endregion
         }
     }
 }

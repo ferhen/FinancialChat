@@ -1,4 +1,7 @@
 ﻿using FinancialBot.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,21 +10,20 @@ namespace FinancialBot
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            CancellationToken token = cancellationTokenSource.Token;
+            var hostBuilder = new HostBuilder()
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddHostedService<QueueService>();
+                });
 
-            var queueService = new QueueService();
-
-            Task.Run(() =>
-            {
-                queueService.StartQueue(token);
-            }, token);
-
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
-            cancellationTokenSource.Cancel();
+            await hostBuilder.RunConsoleAsync();
         }
     }
 }
